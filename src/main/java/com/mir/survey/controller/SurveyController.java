@@ -36,17 +36,12 @@ public class SurveyController {
 	@PostMapping("/survey")
 	public String doPost(Model model, @ModelAttribute("survey") Survey survey) {
 		
-		for (Question q : survey.getQuestions())
-		{
-			for ( Answer a : q.getAnswers())
-			{
-				if ( a.getText() != null && !a.getText().isBlank() && !a.getText().isEmpty() )
-				{
-					a.setQuestion(q);
-					answerRepo.save(a);
-				}
-			}
-		}
+		// Save answer only when contains text
+		survey.getQuestions().stream()
+			.flatMap( question -> question.getAnswers().stream()
+					.filter( answer -> answer.getText() != null && !answer.getText().isBlank() && !answer.getText().isEmpty())
+					.peek( answer -> answer.setQuestion(question)))
+			.forEach(answerRepo::save);
 		
 	    model.addAttribute("feedback", "Odpowiedzi wysłane! Dziękujemy!");
 	    return "survey";
