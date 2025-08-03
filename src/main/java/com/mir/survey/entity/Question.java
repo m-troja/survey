@@ -3,7 +3,6 @@ package com.mir.survey.entity;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -39,6 +38,19 @@ public class Question {
 	}
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "Question [id=" + id + ", text=" + text + "]";
 	}
 
 }
