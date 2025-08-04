@@ -20,6 +20,14 @@ public class Answer {
 	@JoinColumn(name = "question_id")
 	private Question question;
 
+	String jsessionid;
+	
+	public String getJsessionid() {
+		return jsessionid;
+	}
+	public void setJsessionid(String jsessionid) {
+		this.jsessionid = jsessionid;
+	}
 	public String getText() {
 		return text;
 	}
