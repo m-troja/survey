@@ -32,14 +32,9 @@
     <button type="submit">Wyślij</button>
 </form:form>
 
-	<c:if test="${success != null}">
+	<c:if test="${message != null}">
 		<div>
-			${success}
-		</div>
-	</c:if>
-	<c:if test="${error != null}">
-		<div>
-			${error}
+			${message}
 		</div>
 	</c:if>
 </body>
