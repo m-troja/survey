@@ -61,8 +61,8 @@ public class DefaultSurveyService implements SurveyService {
 
 		 questions.forEach(q -> {
 		        List<Answer> answers = IntStream.range(0, 3)
-		            .mapToObj(i -> new Answer()) // brak ID = nowy obiekt
-		            .peek(a -> a.setQuestion(q)) // powiązanie pytania
+		            .mapToObj(i -> new Answer()) 
+		            .peek(a -> a.setQuestion(q)) 
 		            .collect(Collectors.toList());
 
 		        q.setAnswers(answers);
