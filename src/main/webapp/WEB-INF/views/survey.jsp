@@ -43,5 +43,15 @@
 			${message}
 		</div>
 	</c:if>
+	
+	<!-- Cookie Consent Popup -->
+	<div id="cookie-popup" class="cookie-popup">
+	    <p>
+	        Ta strona używa plików cookies, aby zapewnić najlepszą jakość korzystania z naszego serwisu.
+	    </p>
+	    <button id="cookie-ok-button">OK</button>
+	</div>
+
+
 </body>
 </html>
