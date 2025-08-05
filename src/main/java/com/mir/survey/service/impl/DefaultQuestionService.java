@@ -15,13 +15,15 @@ public class DefaultQuestionService implements QuestionService {
 	@Autowired
 	QuestionRepo questionRepo;
 
+	@Override
 	public void saveQuestion(Question question) {
 		questionRepo.save(question);
 	}
-	
+
+	@Override
 	public List<Question> getQuestions() {
 		return questionRepo.findAll();
 	}
-	
+
 
 }

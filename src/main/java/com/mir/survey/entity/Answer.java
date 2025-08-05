@@ -9,19 +9,19 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Answer {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id ;
-	
+
 	private String text;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "question_id")
 	private Question question;
 
 	String jsessionid;
-	
+
 	public String getJsessionid() {
 		return jsessionid;
 	}
@@ -52,6 +52,6 @@ public class Answer {
 		return "Answer [id=" + id + ", text=" + text + "]";
 	}
 
-	
+
 
 }

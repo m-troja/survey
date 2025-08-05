@@ -9,7 +9,8 @@ import com.mir.survey.entity.Question;
 
 @Repository
 public interface QuestionRepo extends CrudRepository<Question, Integer> {
-	
+
+	@Override
 	List<Question> findAll();
 
 }

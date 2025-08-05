@@ -10,16 +10,18 @@ import com.mir.survey.persistence.AnswerRepo;
 import com.mir.survey.service.AnswerService;
 @Service
 public class DefaultAnswerService implements AnswerService {
-	
+
 	@Autowired
 	AnswerRepo answerRepo;
-	
 
+
+	@Override
 	public void saveAnswer(Answer answer)
 	{
 		answerRepo.save(answer);
 	}
 
+	@Override
 	public List<Answer> getAnswersByJsessionID(String jsessionid)
 	{
 		return answerRepo.findByjsessionid(jsessionid);
