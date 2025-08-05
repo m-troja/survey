@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>Dynamiczny formularz pytań</title>
+    <title>Formularz Kłamczuch</title>
 
 	<survey:css-import/>
 	<survey:script-import/>
@@ -16,30 +16,31 @@
 <h2>Formularz pytań do Kłamczucha :)</h2>
 
 <form:form method="post" modelAttribute="survey" action="/survey">
+    
     <c:forEach var="question" items="${survey.questions}" varStatus="surveyStatus">
-        <div class="question-block">
-            <strong>Pytanie ${surveyStatus.index + 1}: ${question.text}</strong>
-            <form:hidden path="questions[${surveyStatus.index}].text"/>
-           	<form:hidden path="questions[${surveyStatus.index}].id"/>
+        <div class="question-block" id="question-${surveyStatus.index}">
+                <strong>Pytanie ${surveyStatus.index + 1}: ${question.text}</strong>
+                <form:hidden path="questions[${surveyStatus.index}].text"/>
+                <form:hidden path="questions[${surveyStatus.index}].id"/>
 
-            <c:forEach begin="0" end="2" var="aIndex">
-            	<form:input path="questions[${surveyStatus.index}].answers[${aIndex}].text" maxlength="20" placeholder="Odpowiedź ${aIndex + 1}" />
-         	    <form:hidden path="questions[${surveyStatus.index}].answers[${aIndex}].id"/>
-            </c:forEach>
-        </div>
+			<div class="answers-container" id="answers-container-${surveyStatus.index}">
+			    <c:forEach begin="0" end="2" var="aIndex">
+			        <form:input path="questions[${surveyStatus.index}].answers[${aIndex}].text" maxlength="20" placeholder="Odpowiedź ${aIndex + 1}" />
+			        <form:hidden path="questions[${surveyStatus.index}].answers[${aIndex}].id"/>
+			    </c:forEach>
+			    
+			    <button type="button" onclick="addAnswerInput(${surveyStatus.index})">Dodaj odpowiedź</button>
+			</div>
+
+         </div>
     </c:forEach>
-
+            
     <button type="submit">Wyślij</button>
 </form:form>
 
-	<c:if test="${success != null}">
+	<c:if test="${message != null}">
 		<div>
-			${success}
-		</div>
-	</c:if>
-	<c:if test="${error != null}">
-		<div>
-			${error}
+			${message}
 		</div>
 	</c:if>
 </body>

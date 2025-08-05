@@ -19,7 +19,7 @@ public class Question {
 	private String text;
 
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-	List<Answer> answers;
+	private List<Answer> answers;
 
 	public String getText() {
 		return text;

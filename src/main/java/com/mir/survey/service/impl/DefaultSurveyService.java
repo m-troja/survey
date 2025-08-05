@@ -23,22 +23,53 @@ public class DefaultSurveyService implements SurveyService {
 	@Autowired
 	AnswerService answerService;
 	
-	public Survey getSurvey()
+	public Survey getSurvey(String jsessionid)
 	{
+		Survey survey = new Survey();
+		
+		  List<Question> questions = questionService.getQuestions();
+		 
+		  if (jsessionid == null) {
+			  return getSurveyWithNoAnswers();
+		  } 
+		  else // Get survey with answers already completed by jsessionid
+		  { 
+			 List<Answer> answers = answerService.getAnswersByJsessionID(jsessionid);
+			 
+			 if ( !answers.isEmpty() && answers.size() != 0 ) {
+				 
+				 questions.forEach(q ->
+				    q.setAnswers(
+				        answers.stream()
+				            .filter(a -> a.getQuestion().getId() == q.getId())
+				            .peek(a -> a.setQuestion(q))
+				            .collect(Collectors.toList())
+				    )
+				);
+				 survey.setQuestions(questions);
+				 return survey;
+			 }
+			 else { // List of answers by jsessionid is empty
+				 return getSurveyWithNoAnswers();
+			 }
+		  }
+	}
+	
+	public Survey getSurveyWithNoAnswers()  {
+		
 		  List<Question> questions = questionService.getQuestions();
 
-		    questions.forEach(q -> {
+		 questions.forEach(q -> {
 		        List<Answer> answers = IntStream.range(0, 3)
-		            .mapToObj(i -> new Answer()) // brak ID = nowy obiekt
-		            .peek(a -> a.setQuestion(q)) // powiązanie pytania
+		            .mapToObj(i -> new Answer()) 
+		            .peek(a -> a.setQuestion(q)) 
 		            .collect(Collectors.toList());
 
 		        q.setAnswers(answers);
 		    });
-
-		    return new Survey(questions);
+		 
+		 return new Survey(questions);
 	}
-	
 	public void saveSurvey(Survey survey, String jsessionid)
 	{
 		survey.getQuestions().stream()
@@ -49,12 +80,16 @@ public class DefaultSurveyService implements SurveyService {
 		.forEach(answerService::saveAnswer);
 	}
 	
-	 public boolean validateSurvey(Survey survey, String jsessionid) {
-		 if ( answerService.getAnswersByJsessionID(jsessionid).isEmpty()) {
-			 return true;
+	 public boolean validateSurvey(Survey survey, String jsessionid) 
+	 {
+		 for ( Question q : survey.getQuestions()) {
+			 for (Answer a : q.getAnswers()) {
+				 if (a.getText().length() > 20) {
+					 return false;
+				 }
+			 }
 		 }
-		 
-		 return false;
+		 return true;
 	 }
 
 }

@@ -19,5 +19,9 @@ public class Survey {
 		this.questions = questions;
 	}
 
+	public Survey() {
+		super();
+	}
+
 
 }
