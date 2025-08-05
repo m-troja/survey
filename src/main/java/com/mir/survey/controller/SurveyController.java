@@ -35,7 +35,7 @@ public class SurveyController {
 	public String doPost(Model model, @ModelAttribute("survey") Survey survey,
 			@CookieValue(value = "JSESSIONID", defaultValue = "null") String jsessionid)
 	{
-		if ( surveyService.validateSurvey(survey, jsessionid))
+		if ( surveyService.validateSurvey(survey))
 		{
 			surveyService.saveSurvey(survey,jsessionid);
 		    model.addAttribute("message", "Odpowiedzi wysłane! Dziękujemy!");

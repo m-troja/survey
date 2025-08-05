@@ -17,6 +17,7 @@ import com.mir.survey.service.SurveyService;
 @Service
 public class DefaultSurveyService implements SurveyService {
 
+	private final Integer ANSWER_LENGTH = 20;
 	@Autowired
 	QuestionService questionService;
 
@@ -37,7 +38,7 @@ public class DefaultSurveyService implements SurveyService {
 		  {
 			 List<Answer> answers = answerService.getAnswersByJsessionID(jsessionid);
 
-			 if ( !answers.isEmpty() && answers.size() != 0 ) {
+			 if (!answers.isEmpty()) {
 
 				 questions.forEach(q ->
 				    q.setAnswers(
@@ -84,11 +85,11 @@ public class DefaultSurveyService implements SurveyService {
 	}
 
 	 @Override
-	public boolean validateSurvey(Survey survey, String jsessionid)
+	public boolean validateSurvey(Survey survey)
 	 {
 		 for ( Question q : survey.getQuestions()) {
 			 for (Answer a : q.getAnswers()) {
-				 if (a.getText().length() > 20) {
+				 if (a.getText().length() > ANSWER_LENGTH ) {
 					 return false;
 				 }
 			 }
