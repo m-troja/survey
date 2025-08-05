@@ -3,7 +3,7 @@ package com.mir.survey.entity;
 import java.util.List;
 
 public class Survey {
-	
+
 	List<Question> questions;
 
 	public List<Question> getQuestions() {

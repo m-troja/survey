@@ -9,9 +9,10 @@ import com.mir.survey.entity.Answer;
 
 @Repository
 public interface AnswerRepo extends CrudRepository<Answer, Integer> {
-	
+
+	@Override
 	List<Answer> findAll();
-	
+
 	List<Answer> findByjsessionid(String jsessionid);
 
 }
