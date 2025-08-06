@@ -6,6 +6,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.Instant;
 
 @Entity
 public class Answer {
@@ -16,7 +19,10 @@ public class Answer {
 
 	private String text;
 
-	@ManyToOne
+    @UpdateTimestamp
+    private Instant timestamp;
+
+    @ManyToOne
 	@JoinColumn(name = "question_id")
 	private Question question;
 
