@@ -16,7 +16,7 @@
 
 <h2>Formularz pytań do Kłamczucha :)</h2>
 
-<form:form method="post" modelAttribute="survey" action="/survey">
+<form:form method="post" modelAttribute="survey" action="/survey" onsubmit="return validateAnswers()" >
     
     <c:forEach var="question" items="${survey.questions}" varStatus="surveyStatus">
         <div class="question-block" id="question-${surveyStatus.index}">
@@ -54,8 +54,6 @@
     <p>Ta strona używa plików cookies, aby zapewnić najlepszą jakość korzystania z naszego serwisu.</p>
     <button id="cookie-ok-button">OK</button>
 </div>
-
-<survey:cookie-script-import/>
 
 </body>
 </html>
