@@ -1,12 +1,28 @@
 package com.mir.survey.entity;
 
+
 import java.util.List;
 
 public class Survey {
 
+    String title;
+
+    String description;
+
 	List<Question> questions;
 
-	public List<Question> getQuestions() {
+    public Survey(String title, String description, List<Question> questions) {
+        this.title = title;
+        this.description = description;
+        this.questions = questions;
+    }
+
+    public Survey(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
+    public List<Question> getQuestions() {
 		return questions;
 	}
 
@@ -23,5 +39,11 @@ public class Survey {
 		super();
 	}
 
+    public String getTitle() {
+        return title;
+    }
 
+    public String getDescription() {
+        return description;
+    }
 }

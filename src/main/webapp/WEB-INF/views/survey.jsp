@@ -6,7 +6,7 @@
 
 <html>
 <head>
-    <title>Formularz Kłamczuch</title>
+    <title>${survey.title}</title>
 
 	<survey:css-import/>
 	<survey:script-import/>
@@ -14,7 +14,15 @@
 </head>
 <body>
 
-<h2>Formularz pytań do Kłamczucha :)</h2>
+<h2>${survey.title}</h2>
+<h3>${survey.description}</h2>
+
+<c:if test="${message != null}">
+    <div class="message-box">
+        ${message}
+    </div>
+</c:if>
+
 
 <form:form method="post" modelAttribute="survey" action="/survey" onsubmit="return validateAnswers()" >
     
@@ -40,12 +48,7 @@
     <button type="submit">Wyślij</button>
 </form:form>
 
-	<c:if test="${message != null}">
-		<div>
-			${message}
-		</div>
-	</c:if>
-	
+
 <!-- Overlay to block interaction -->
 <div id="cookie-overlay"></div>
 

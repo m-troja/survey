@@ -5,6 +5,6 @@ import java.util.List;
 import com.mir.survey.entity.Question;
 
 public interface QuestionService {
-	public void saveQuestion(Question question);
-	public List<Question> getQuestions();
+	void saveQuestion(Question question);
+	List<Question> getQuestions();
 }

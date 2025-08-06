@@ -7,5 +7,5 @@ public interface SurveyService {
 	 Survey getSurvey(String jsessionid);
 	 Survey getSurveyWithNoAnswers();
 	 boolean validateSurvey(Survey survey);
-	 public void saveSurvey(Survey survey, String jsessionid);
+	 void saveSurvey(Survey survey, String jsessionid);
 	 }

@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.mir.survey.entity.Answer;
@@ -17,10 +18,16 @@ import com.mir.survey.service.SurveyService;
 @Slf4j
 @Service
 public class DefaultSurveyService implements SurveyService {
-	
+
+    @Value("${survey.title}")
+    private String surveyTitle;
+
+    @Value("${survey.description}")
+    private String surveyDescription;
+
 	@Autowired
 	QuestionService questionService;
-	
+
 	@Autowired
 	AnswerService answerService;
 
@@ -28,7 +35,7 @@ public class DefaultSurveyService implements SurveyService {
 
 	public Survey getSurvey(String jsessionid)
 	{
-		Survey survey = new Survey();
+		Survey survey = new Survey(surveyTitle,surveyDescription);
 		
 		  List<Question> questions = questionService.getQuestions();
 
@@ -46,7 +53,7 @@ public class DefaultSurveyService implements SurveyService {
 				        answers.stream()
 				            .filter(a -> a.getQuestion().getId() == q.getId())
 				            .peek(a -> a.setQuestion(q))
-                            .peek(a -> System.out.println("Load: " + a.toString() + " " + q.toString()))
+                            .peek(a -> System.out.println("Load: " + a + " " + q))
                                 .collect(Collectors.toList())
 				    )
 				);
@@ -72,7 +79,7 @@ public class DefaultSurveyService implements SurveyService {
 		        q.setAnswers(answers);
 		    });
 		 
-		 return new Survey(questions);
+		 return new Survey(surveyTitle, surveyDescription, questions);
 	}
 	public void saveSurvey(Survey survey, String jsessionid)
 	{
@@ -81,7 +88,7 @@ public class DefaultSurveyService implements SurveyService {
 				.filter( answer -> answer.getText() != null && !answer.getText().isBlank() && !answer.getText().isEmpty())
 				.peek( answer -> answer.setQuestion(question))
 				.peek(answer -> answer.setJsessionid(jsessionid))
-				.peek(a -> System.out.println("save:" + a.toString())))
+				.peek(a -> System.out.println("save:" + a)))
 		.forEach(answerService::saveAnswer);
 	}
 
@@ -109,7 +116,7 @@ public class DefaultSurveyService implements SurveyService {
     {
         for ( Question q : survey.getQuestions()) {
             if (q.getAnswers().size() > allowedAnswersQty) {
-                System.out.println("checkQtyOfAnswers false, size of answers: " + q.getAnswers().size() + ", for " + q.toString() );
+                System.out.println("checkQtyOfAnswers false, size of answers: " + q.getAnswers().size() + ", for " + q);
                 return false;
             }
         }
