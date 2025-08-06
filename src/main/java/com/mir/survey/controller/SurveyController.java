@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller
 public class SurveyController {
 
-    private final String successMessage ="Odpowiedzi wysłane! Dziękujemy!";
+  private final String successMessage ="Odpowiedzi wysłane! Dziękujemy!";
 	private final String errorMessage ="Błąd - długość odpowiedzi > 20";
 
 	SurveyService surveyService;

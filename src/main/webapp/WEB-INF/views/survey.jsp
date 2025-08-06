@@ -55,5 +55,7 @@
     <button id="cookie-ok-button">OK</button>
 </div>
 
+<survey:cookie-script-import/>
+
 </body>
 </html>

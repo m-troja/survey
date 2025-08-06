@@ -24,7 +24,7 @@ public class DefaultSurveyService implements SurveyService {
 	@Autowired
 	AnswerService answerService;
 
-    private final Integer allowedAnswersQty = 10;
+  private final Integer allowedAnswersQty = 10;
 
 	public Survey getSurvey(String jsessionid)
 	{
@@ -38,9 +38,9 @@ public class DefaultSurveyService implements SurveyService {
 		  else // Get survey with answers already completed by jsessionid
 		  { 
 			 List<Answer> answers = answerService.getAnswersByJsessionID(jsessionid);
-			 
+
 			 if ( !answers.isEmpty()) {
-				 
+
 				 questions.forEach(q ->
 				    q.setAnswers(
 				        answers.stream()
