@@ -16,7 +16,7 @@
 
 <h2>Formularz pytań do Kłamczucha :)</h2>
 
-<form:form method="post" modelAttribute="survey" action="/survey">
+<form:form method="post" modelAttribute="survey" action="/survey" onsubmit="return validateAnswers()" >
     
     <c:forEach var="question" items="${survey.questions}" varStatus="surveyStatus">
         <div class="question-block" id="question-${surveyStatus.index}">
@@ -25,8 +25,8 @@
                 <form:hidden path="questions[${surveyStatus.index}].id"/>
 
 			<div class="answers-container" id="answers-container-${surveyStatus.index}">
-                <c:forEach var="aIndex" begin="0" end="2" >
-                    <c:if test="${aIndex <10}" >
+                <c:forEach var="aIndex" begin="0" end="${fn:length(question.answers) - 1}">
+                    <c:if test="${ aIndex <10 }" >
 			          <form:input path="questions[${surveyStatus.index}].answers[${aIndex}].text" maxlength="20" placeholder="Odpowiedź ${aIndex + 1}" />
 			          <form:hidden path="questions[${surveyStatus.index}].answers[${aIndex}].id"/>
                      </c:if>

@@ -1,5 +1,7 @@
 package com.mir.survey.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,10 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.mir.survey.entity.Answer;
 import com.mir.survey.entity.Survey;
 import com.mir.survey.service.AnswerService;
 import com.mir.survey.service.SurveyService;
-
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
@@ -22,18 +24,17 @@ public class SurveyController {
 
 	SurveyService surveyService;
 
-
 	@GetMapping("/survey")
-	public String showForm(Model model, HttpServletRequest request,
+	public String showForm(Model model, HttpServletRequest request, 
 			@CookieValue(value = "JSESSIONID", defaultValue = "null") String jsessionid) {
-
+		
 		model.addAttribute("survey", surveyService.getSurvey(jsessionid));
 		return "survey";
 	}
-
+	
 	@PostMapping("/survey")
-	public String doPost(Model model, @ModelAttribute("survey") Survey survey,
-			@CookieValue(value = "JSESSIONID", defaultValue = "null") String jsessionid)
+	public String doPost(Model model, @ModelAttribute("survey") Survey survey, 
+			@CookieValue(value = "JSESSIONID", defaultValue = "null") String jsessionid) 
 	{
 		if ( surveyService.validateSurvey(survey))
 		{
@@ -43,7 +44,7 @@ public class SurveyController {
 		else {
 			model.addAttribute("message", errorMessage);
 		}
-
+		
 	    return "survey";
 	}
 
