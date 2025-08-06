@@ -2,14 +2,25 @@ function addAnswerInput(questionIndex) {
     const container = document.getElementById("answers-container-" + questionIndex);
     const inputCount = container.querySelectorAll("input[type='text']").length;
 
-    const input = document.createElement("input");
-    input.type = "text";
-    input.name = "questions[" + questionIndex + "].answers[" + inputCount + "].text";
-    input.placeholder = "Odpowiedź " + (inputCount + 1);
+    const button = container.querySelector("button"); // pobieramy przycisk z tego kontenera
 
-    const button = container.querySelector("button");
-    container.insertBefore(input, button);
+    if ( inputCount < 10)
+    {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.name = "questions[" + questionIndex + "].answers[" + inputCount + "].text";
+        input.placeholder = "Odpowiedź " + (inputCount + 1);
+
+        const button = container.querySelector("button");
+        container.insertBefore(input, button);
+    }
+    else
+    {
+           button.style.backgroundColor = "brown";
+           button.textContent="Limit 10 odpowiedzi!"
+    }
 }
+
 // Check if cookies have been accepted
 function hasAcceptedCookies() {
     return localStorage.getItem('cookiesAccepted') === 'true';

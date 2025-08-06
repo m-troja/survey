@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="survey" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
 <head>
@@ -15,7 +16,7 @@
 
 <h2>Formularz pytań do Kłamczucha :)</h2>
 
-<form:form method="post" modelAttribute="survey" action="/survey">
+<form:form method="post" modelAttribute="survey" action="/survey" onsubmit="return validateAnswers()" >
     
     <c:forEach var="question" items="${survey.questions}" varStatus="surveyStatus">
         <div class="question-block" id="question-${surveyStatus.index}">
@@ -24,12 +25,13 @@
                 <form:hidden path="questions[${surveyStatus.index}].id"/>
 
 			<div class="answers-container" id="answers-container-${surveyStatus.index}">
-			    <c:forEach begin="0" end="2" var="aIndex">
-			        <form:input path="questions[${surveyStatus.index}].answers[${aIndex}].text" maxlength="20" placeholder="Odpowiedź ${aIndex + 1}" />
-			        <form:hidden path="questions[${surveyStatus.index}].answers[${aIndex}].id"/>
+                <c:forEach var="aIndex" begin="0" end="${fn:length(question.answers) - 1}">
+                    <c:if test="${ aIndex <10 }" >
+			          <form:input path="questions[${surveyStatus.index}].answers[${aIndex}].text" maxlength="20" placeholder="Odpowiedź ${aIndex + 1}" />
+			          <form:hidden path="questions[${surveyStatus.index}].answers[${aIndex}].id"/>
+                     </c:if>
 			    </c:forEach>
-			    
-			    <button type="button" onclick="addAnswerInput(${surveyStatus.index})">Dodaj odpowiedź</button>
+			    <button id="buttonAdd-${surveyStatus.index}" type="button" onclick="addAnswerInput(${surveyStatus.index})">Dodaj odpowiedź</button>
 			</div>
 
          </div>
@@ -52,8 +54,6 @@
     <p>Ta strona używa plików cookies, aby zapewnić najlepszą jakość korzystania z naszego serwisu.</p>
     <button id="cookie-ok-button">OK</button>
 </div>
-
-<survey:cookie-script-import/>
 
 </body>
 </html>
