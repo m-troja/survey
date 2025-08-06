@@ -1,6 +1,5 @@
 package com.mir.survey.entity;
 
-
 import java.util.List;
 
 public class Survey {
