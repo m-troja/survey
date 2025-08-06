@@ -11,7 +11,7 @@ import jakarta.persistence.OneToMany;
 
 @Entity
 public class Question {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id ;
@@ -32,7 +32,7 @@ public class Question {
 	public Question() {
 		super();
 	}
-	
+
 	public List<Answer> getAnswers() {
 		return answers;
 	}
