@@ -17,30 +17,31 @@ import com.mir.survey.service.SurveyService;
 @Slf4j
 @Service
 public class DefaultSurveyService implements SurveyService {
-	
+
+	private final Integer ANSWER_LENGTH = 20;
 	@Autowired
 	QuestionService questionService;
-	
+
 	@Autowired
 	AnswerService answerService;
 
-    private final Integer allowedAnswersQty = 10;
+  private final Integer allowedAnswersQty = 10;
 
 	public Survey getSurvey(String jsessionid)
 	{
 		Survey survey = new Survey();
-		
+
 		  List<Question> questions = questionService.getQuestions();
 
 		  if (jsessionid == null) {
 			  return getSurveyWithNoAnswers();
-		  } 
+		  }
 		  else // Get survey with answers already completed by jsessionid
-		  { 
+		  {
 			 List<Answer> answers = answerService.getAnswersByJsessionID(jsessionid);
-			 
 			 if ( !answers.isEmpty()) {
 				 
+
 				 questions.forEach(q ->
 				    q.setAnswers(
 				        answers.stream()
@@ -58,22 +59,24 @@ public class DefaultSurveyService implements SurveyService {
 			 }
 		  }
 	}
-	
+
+	@Override
 	public Survey getSurveyWithNoAnswers()  {
-		
+
 		  List<Question> questions = questionService.getQuestions();
 
 		 questions.forEach(q -> {
 		        List<Answer> answers = IntStream.range(0, 3)
-		            .mapToObj(i -> new Answer()) 
-		            .peek(a -> a.setQuestion(q)) 
+		            .mapToObj(i -> new Answer())
+		            .peek(a -> a.setQuestion(q))
 		            .collect(Collectors.toList());
 
 		        q.setAnswers(answers);
 		    });
-		 
+
 		 return new Survey(questions);
 	}
+	@Override
 	public void saveSurvey(Survey survey, String jsessionid)
 	{
 		survey.getQuestions().stream()
@@ -91,6 +94,7 @@ public class DefaultSurveyService implements SurveyService {
          boolean checkQtyOfAnswers = checkQtyOfAnswers(survey);
         System.out.println("validateSurvey "  + (checkLength && checkQtyOfAnswers) );
          return checkLength && checkQtyOfAnswers;
+
 	 }
 
      private boolean checkAnswersLength(Survey survey)
