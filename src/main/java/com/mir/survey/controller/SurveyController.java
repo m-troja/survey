@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class SurveyController {
 
-    @Value("${success.message}")
+  @Value("${success.message}")
     private String successMessage;
 
     @Value("${error.message}")
     private String errorMessage;
+
 
 	SurveyService surveyService;
 
