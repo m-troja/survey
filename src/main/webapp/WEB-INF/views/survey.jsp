@@ -25,8 +25,8 @@
                 <form:hidden path="questions[${surveyStatus.index}].id"/>
 
 			<div class="answers-container" id="answers-container-${surveyStatus.index}">
-                <c:forEach var="aIndex" begin="0" end="2" >
-                    <c:if test="${aIndex <10}" >
+                <c:forEach var="aIndex" begin="0" end="${fn:length(question.answers) - 1}">
+                    <c:if test="${ aIndex <10 }" >
 			          <form:input path="questions[${surveyStatus.index}].answers[${aIndex}].text" maxlength="20" placeholder="Odpowiedź ${aIndex + 1}" />
 			          <form:hidden path="questions[${surveyStatus.index}].answers[${aIndex}].id"/>
                      </c:if>
