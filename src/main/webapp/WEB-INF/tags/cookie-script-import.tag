@@ -1,0 +1,1 @@
+<script src="/script/cookie.js"></script>
