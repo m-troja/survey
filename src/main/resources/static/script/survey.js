@@ -10,3 +10,28 @@ function addAnswerInput(questionIndex) {
     const button = container.querySelector("button");
     container.insertBefore(input, button);
 }
+// Check if cookies have been accepted
+function hasAcceptedCookies() {
+    return localStorage.getItem('cookiesAccepted') === 'true';
+}
+
+// Show popup if not accepted
+window.addEventListener('load', function() {
+    if (!hasAcceptedCookies()) {
+        var popup = document.getElementById('cookie-popup');
+        if (popup) {
+            popup.style.display = 'block';
+        }
+    }
+
+    var okButton = document.getElementById('cookie-ok-button');
+    if (okButton) {
+        okButton.addEventListener('click', function() {
+            localStorage.setItem('cookiesAccepted', 'true');
+            var popup = document.getElementById('cookie-popup');
+            if (popup) {
+                popup.style.display = 'none';
+            }
+        });
+    }
+});

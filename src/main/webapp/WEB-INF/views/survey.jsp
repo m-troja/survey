@@ -43,5 +43,17 @@
 			${message}
 		</div>
 	</c:if>
+	
+<!-- Overlay to block interaction -->
+<div id="cookie-overlay"></div>
+
+<!-- Cookie Consent Popup -->
+<div id="cookie-popup">
+    <p>Ta strona używa plików cookies, aby zapewnić najlepszą jakość korzystania z naszego serwisu.</p>
+    <button id="cookie-ok-button">OK</button>
+</div>
+
+<survey:cookie-script-import/>
+
 </body>
 </html>
