@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="survey" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
 <head>
@@ -24,12 +25,13 @@
                 <form:hidden path="questions[${surveyStatus.index}].id"/>
 
 			<div class="answers-container" id="answers-container-${surveyStatus.index}">
-			    <c:forEach begin="0" end="2" var="aIndex">
-			        <form:input path="questions[${surveyStatus.index}].answers[${aIndex}].text" maxlength="20" placeholder="Odpowiedź ${aIndex + 1}" />
-			        <form:hidden path="questions[${surveyStatus.index}].answers[${aIndex}].id"/>
+                <c:forEach var="aIndex" begin="0" end="2" >
+                    <c:if test="${aIndex <10}" >
+			          <form:input path="questions[${surveyStatus.index}].answers[${aIndex}].text" maxlength="20" placeholder="Odpowiedź ${aIndex + 1}" />
+			          <form:hidden path="questions[${surveyStatus.index}].answers[${aIndex}].id"/>
+                     </c:if>
 			    </c:forEach>
-			    
-			    <button type="button" onclick="addAnswerInput(${surveyStatus.index})">Dodaj odpowiedź</button>
+			    <button id="buttonAdd-${surveyStatus.index}" type="button" onclick="addAnswerInput(${surveyStatus.index})">Dodaj odpowiedź</button>
 			</div>
 
          </div>

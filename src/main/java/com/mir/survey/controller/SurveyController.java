@@ -18,13 +18,12 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class SurveyController {
-	
-	@Autowired
+
+    private final String successMessage ="Odpowiedzi wysłane! Dziękujemy!";
+	private final String errorMessage ="Błąd - długość odpowiedzi > 20";
+
 	SurveyService surveyService;
 
-	@Autowired
-	AnswerService answerService;
-	
 	@GetMapping("/survey")
 	public String showForm(Model model, HttpServletRequest request, 
 			@CookieValue(value = "JSESSIONID", defaultValue = "null") String jsessionid) {
@@ -37,16 +36,19 @@ public class SurveyController {
 	public String doPost(Model model, @ModelAttribute("survey") Survey survey, 
 			@CookieValue(value = "JSESSIONID", defaultValue = "null") String jsessionid) 
 	{
-		if ( surveyService.validateSurvey(survey, jsessionid)) 
+		if ( surveyService.validateSurvey(survey))
 		{
-			surveyService.saveSurvey(survey,jsessionid);
-		    model.addAttribute("message", "Odpowiedzi wysłane! Dziękujemy!");
+			surveyService.saveSurvey(survey, jsessionid);
+		    model.addAttribute("message", successMessage);
 		}
 		else {
-			model.addAttribute("message", "Błąd - długość odpowiedzi > 20");
+			model.addAttribute("message", errorMessage);
 		}
 		
 	    return "survey";
 	}
 
+    public SurveyController(SurveyService surveyService) {
+        this.surveyService = surveyService;
+    }
 }
