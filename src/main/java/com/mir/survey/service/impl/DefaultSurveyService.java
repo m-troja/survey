@@ -44,14 +44,14 @@ public class DefaultSurveyService implements SurveyService {
           Survey survey = new Survey(surveyTitle,surveyDescription, questions);
 
 		  if (jsessionid == null) {
-              log.debug("getSurvey jsessionid == null");
+              log.debug("getSurvey: jsessionid == null, return getSurveyWithNoAnswers()");
 
               return getSurveyWithNoAnswers();
 		  } 
 		  else // Get survey with answers already completed by jsessionid
 		  { 
 			 List<Answer> answers = answerService.getAnswersByJsessionID(jsessionid);
-              log.debug("getSurvey jsessionid == {}" , jsessionid);
+              log.debug("getSurvey: jsessionid == {}" , jsessionid);
 			 if ( !answers.isEmpty()) {
 				 
 				 questions.forEach(q ->
@@ -59,7 +59,7 @@ public class DefaultSurveyService implements SurveyService {
 				        answers.stream()
 				            .filter(a -> a.getQuestion().getId() == q.getId())
 				            .peek(a -> a.setQuestion(q))
-                            .peek(a -> log.debug("Load: {} into {}" , a , q))
+                            .peek(a -> log.debug("Load {} into {}" , a , q))
                                 .collect(Collectors.toList())
 				    )
 				);
@@ -68,6 +68,7 @@ public class DefaultSurveyService implements SurveyService {
 				 return survey;
 			 }
 			 else { // List of answers by jsessionid is empty
+                 log.debug("List of answers by jsessionid is empty, return getSurveyWithNoAnswers()");
 				 return getSurveyWithNoAnswers();
 			 }
 		  }
@@ -76,12 +77,13 @@ public class DefaultSurveyService implements SurveyService {
 	public Survey getSurveyWithNoAnswers()  {
 		
 		 List<Question> questions = questionService.getQuestions();
-         log.debug("getSurveyWithNoAnswers questions: {}" , questions.toString());
+         log.debug("getSurveyWithNoAnswers: getQuestions(): {}" , questions);
+         log.debug("Setting answers into questions");
 		 questions.forEach(q -> {
 		        List<Answer> answers = IntStream.range(0, 3)
 		            .mapToObj(i -> new Answer()) 
 		            .peek(a -> a.setQuestion(q)) 
-		            .peek(a ->  log.debug("set {} into {}" , q , a ))
+		            .peek(a ->  log.debug("Set {} into {}" , q , a ))
 		            .collect(Collectors.toList());
 
 		        q.setAnswers(answers);
@@ -91,13 +93,14 @@ public class DefaultSurveyService implements SurveyService {
 	}
 	public void saveSurvey(Survey survey, String jsessionid)
 	{
-        log.debug("inside saveSurvey");
+        log.debug("inside saveSurvey, building answer objects");
 		survey.getQuestions().stream()
 		.flatMap( question -> question.getAnswers().stream()
 				.filter( answer -> answer.getText() != null && !answer.getText().isBlank() && !answer.getText().isEmpty())
-				.peek( answer -> answer.setQuestion(question))
-				.peek(answer -> answer.setJsessionid(jsessionid))
-				.peek(a -> log.debug("save {} into {}" , a , question)))
+				.peek( a -> a.setQuestion(question))
+				.peek( a -> log.debug("Set jsessionid = {} for {}", jsessionid, a))
+				.peek(a -> a.setJsessionid(jsessionid))
+				.peek(a -> log.debug("Save {} into {}" , a , question)))
 		.forEach(answerService::saveAnswer);
 	}
 
