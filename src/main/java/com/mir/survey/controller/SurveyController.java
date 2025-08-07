@@ -38,6 +38,7 @@ public class SurveyController {
         model.addAttribute("message", null);
         model.addAttribute("answerMaxLength", answerMaxLength);
         model.addAttribute("survey", surveyService.getSurvey(jsessionid));
+        log.debug("Added atributes: answerMaxLength " + answerMaxLength);
         return "survey";
     }
 
@@ -50,11 +51,14 @@ public class SurveyController {
         if ( surveyService.validateSurvey(survey))
         {
             surveyService.saveSurvey(survey, jsessionid);
+            log.debug("Send successMessage " + successMessage);
             model.addAttribute("successMessage", successMessage);
         }
         else {
+            log.debug("Send errorMessage " + errorMessage);
             model.addAttribute("errorMessage", errorMessage);
         }
+        log.debug("Added atributes: answerMaxLength " + answerMaxLength);
         model.addAttribute("answerMaxLength", answerMaxLength);
         model.addAttribute("survey", surveyService.getSurvey(jsessionid));
         return "survey";
