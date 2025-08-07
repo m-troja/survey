@@ -2,6 +2,12 @@ package com.mir.survey.entity;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
 public class Survey {
 
     String title;
@@ -10,16 +16,7 @@ public class Survey {
 
 	List<Question> questions;
 
-    public Survey(String title, String description, List<Question> questions) {
-        this.title = title;
-        this.description = description;
-        this.questions = questions;
-    }
 
-    public Survey(String title, String description) {
-        this.title = title;
-        this.description = description;
-    }
 
     public List<Question> getQuestions() {
 		return questions;
@@ -32,10 +29,6 @@ public class Survey {
 	public Survey(List<Question> questions) {
 		super();
 		this.questions = questions;
-	}
-
-	public Survey() {
-		super();
 	}
 
     public String getTitle() {

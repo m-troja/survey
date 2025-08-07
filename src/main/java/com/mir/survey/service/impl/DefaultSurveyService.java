@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import com.mir.survey.controller.SurveyController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,19 +32,22 @@ public class DefaultSurveyService implements SurveyService {
 	@Autowired
 	AnswerService answerService;
 
+    @Value("${answer.max.length}")
+    private int answerMaxLength;
+
   private final Integer allowedAnswersQty = 10;
 
 	public Survey getSurvey(String jsessionid)
 	{
-		Survey survey = new Survey(surveyTitle,surveyDescription);
-		
+
 		  List<Question> questions = questionService.getQuestions();
+          Survey survey = new Survey(surveyTitle,surveyDescription, questions);
 
 		  if (jsessionid == null) {
 			  return getSurveyWithNoAnswers();
-		  } 
+		  }
 		  else // Get survey with answers already completed by jsessionid
-		  { 
+		  {
 			 List<Answer> answers = answerService.getAnswersByJsessionID(jsessionid);
 
 			 if ( !answers.isEmpty()) {
@@ -53,7 +57,6 @@ public class DefaultSurveyService implements SurveyService {
 				        answers.stream()
 				            .filter(a -> a.getQuestion().getId() == q.getId())
 				            .peek(a -> a.setQuestion(q))
-                            .peek(a -> System.out.println("Load: " + a + " " + q))
                                 .collect(Collectors.toList())
 				    )
 				);
@@ -65,20 +68,20 @@ public class DefaultSurveyService implements SurveyService {
 			 }
 		  }
 	}
-	
+
 	public Survey getSurveyWithNoAnswers()  {
-		
+
 		  List<Question> questions = questionService.getQuestions();
 
 		 questions.forEach(q -> {
 		        List<Answer> answers = IntStream.range(0, 3)
-		            .mapToObj(i -> new Answer()) 
-		            .peek(a -> a.setQuestion(q)) 
+		            .mapToObj(i -> new Answer())
+		            .peek(a -> a.setQuestion(q))
 		            .collect(Collectors.toList());
 
 		        q.setAnswers(answers);
 		    });
-		 
+
 		 return new Survey(surveyTitle, surveyDescription, questions);
 	}
 	public void saveSurvey(Survey survey, String jsessionid)
@@ -104,7 +107,7 @@ public class DefaultSurveyService implements SurveyService {
      {
          for ( Question q : survey.getQuestions()) {
              for (Answer a : q.getAnswers()) {
-                 if (a.getText().length() > 20) {
+                 if (a.getText().length() > answerMaxLength) {
                      System.out.println("checkAnswersLength false, length of answers: " + a.getText().length() );
                      return false;
                  }

@@ -1,12 +1,8 @@
 package com.mir.survey.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.Instant;
 
@@ -15,9 +11,11 @@ public class Answer {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int id ;
+    private int id ;
 
 	private String text;
+
+    private String jsessionid;
 
     @UpdateTimestamp
     private Instant timestamp;
@@ -25,8 +23,6 @@ public class Answer {
     @ManyToOne
 	@JoinColumn(name = "question_id")
 	private Question question;
-
-	String jsessionid;
 
 	public String getJsessionid() {
 		return jsessionid;
@@ -53,7 +49,16 @@ public class Answer {
 	public void setQuestion(Question question) {
 		this.question = question;
 	}
-	@Override
+
+    public Instant getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Instant timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    @Override
 	public String toString() {
 		return "Answer [id=" + id + ", text=" + text + "]";
 	}

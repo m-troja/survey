@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class SurveyController {
 
-  @Value("${success.message}")
+
+    @Value("${answer.max.length}")
+    public int answerMaxLength;
+
+    @Value("${survey.message.sent.success}")
     private String successMessage;
 
-    @Value("${error.message}")
+    @Value("${survey.message.sent.error}")
     private String errorMessage;
 
 
@@ -28,6 +32,8 @@ public class SurveyController {
 			@CookieValue(value = "JSESSIONID", defaultValue = "null") String jsessionid) {
 
 		model.addAttribute("message", null);
+		model.addAttribute("message", null);
+		model.addAttribute("answerMaxLength", answerMaxLength);
 		model.addAttribute("survey", surveyService.getSurvey(jsessionid));
 		return "survey";
 	}
@@ -39,11 +45,12 @@ public class SurveyController {
 		if ( surveyService.validateSurvey(survey))
 		{
 			surveyService.saveSurvey(survey, jsessionid);
-		    model.addAttribute("message", successMessage);
+		    model.addAttribute("successMessage", successMessage);
 		}
 		else {
-			model.addAttribute("message", errorMessage);
+			model.addAttribute("errorMessage", errorMessage);
 		}
+        model.addAttribute("answerMaxLength", answerMaxLength);
         model.addAttribute("survey", surveyService.getSurvey(jsessionid));
 	    return "survey";
 	}

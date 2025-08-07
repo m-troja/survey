@@ -17,12 +17,17 @@
 <h2>${survey.title}</h2>
 <h3>${survey.description}</h2>
 
-<c:if test="${message != null}">
-    <div class="message-box">
-        ${message}
+<c:if test="${successMessage != null}">
+    <div class="success-message-box">
+        ${successMessage}
     </div>
 </c:if>
 
+<c:if test="${errorMessage != null}">
+    <div class="error-message-box">
+        ${errorMessage}
+    </div>
+</c:if>
 
 <form:form method="post" modelAttribute="survey" action="/survey" onsubmit="return validateAnswers()" >
     
@@ -32,10 +37,10 @@
                 <form:hidden path="questions[${surveyStatus.index}].text"/>
                 <form:hidden path="questions[${surveyStatus.index}].id"/>
 
-			<div class="answers-container" id="answers-container-${surveyStatus.index}">
+			<div class="answers-container" id="answers-container-${surveyStatus.index}" data-answer-max-length="${answerMaxLength}">
                 <c:forEach var="aIndex" begin="0" end="${fn:length(question.answers) - 1}">
                     <c:if test="${ aIndex <10 }" >
-			          <form:input path="questions[${surveyStatus.index}].answers[${aIndex}].text" maxlength="20" placeholder="Odpowiedź ${aIndex + 1}" />
+			          <form:input path="questions[${surveyStatus.index}].answers[${aIndex}].text" maxlength="${answerMaxLength}" placeholder="Odpowiedź ${aIndex + 1}" />
 			          <form:hidden path="questions[${surveyStatus.index}].answers[${aIndex}].id"/>
                      </c:if>
 			    </c:forEach>
@@ -48,7 +53,6 @@
     <button type="submit">Wyślij</button>
 </form:form>
 
-
 <!-- Overlay to block interaction -->
 <div id="cookie-overlay"></div>
 
@@ -57,8 +61,6 @@
     <p>Ta strona używa plików cookies, aby zapewnić najlepszą jakość korzystania z naszego serwisu.</p>
     <button id="cookie-ok-button">OK</button>
 </div>
-
-<survey:cookie-script-import/>
 
 </body>
 </html>
