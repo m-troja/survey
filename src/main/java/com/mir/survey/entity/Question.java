@@ -8,7 +8,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Entity
 public class Question {
 
@@ -27,10 +29,6 @@ public class Question {
 
 	public void setText(String text) {
 		this.text = text;
-	}
-
-	public Question() {
-		super();
 	}
 
 	public List<Answer> getAnswers() {

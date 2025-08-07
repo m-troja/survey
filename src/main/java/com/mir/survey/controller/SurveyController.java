@@ -25,8 +25,6 @@ public class SurveyController {
 
     @Value("${survey.message.sent.error}")
     private String errorMessage;
-
-
     SurveyService surveyService;
 
     @GetMapping("/survey")

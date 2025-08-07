@@ -16,5 +16,4 @@ public class Survey {
     private String description;
 
     private List<Question> questions;
-
 }
