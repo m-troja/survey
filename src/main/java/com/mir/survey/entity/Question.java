@@ -1,15 +1,16 @@
 package com.mir.survey.entity;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Question {
 
 	@Id
@@ -20,33 +21,6 @@ public class Question {
 
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Answer> answers;
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-	public Question() {
-		super();
-	}
-
-	public List<Answer> getAnswers() {
-		return answers;
-	}
-	public void setAnswers(List<Answer> answers) {
-		this.answers = answers;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	@Override
 	public String toString() {

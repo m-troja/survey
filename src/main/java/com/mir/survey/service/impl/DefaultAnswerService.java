@@ -1,13 +1,12 @@
 package com.mir.survey.service.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.mir.survey.entity.Answer;
 import com.mir.survey.persistence.AnswerRepo;
 import com.mir.survey.service.AnswerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 @Service
 public class DefaultAnswerService implements AnswerService {
 

@@ -1,11 +1,10 @@
 package com.mir.survey.entity;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

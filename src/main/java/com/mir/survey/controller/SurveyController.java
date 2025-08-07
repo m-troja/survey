@@ -32,13 +32,13 @@ public class SurveyController {
     @GetMapping("/survey")
     public String showForm(Model model, HttpServletRequest request,
                            @CookieValue(value = "JSESSIONID", defaultValue = "null") String jsessionid) {
-        log.debug("GET /survey, jsessionid: " + jsessionid);
+        log.debug("GET /survey, jsessionid: {}" , jsessionid);
 
         model.addAttribute("message", null);
         model.addAttribute("message", null);
         model.addAttribute("answerMaxLength", answerMaxLength);
         model.addAttribute("survey", surveyService.getSurvey(jsessionid));
-        log.debug("Added atributes: answerMaxLength " + answerMaxLength);
+        log.debug("Added attributes: answerMaxLength {}" , answerMaxLength);
         return "survey";
     }
 
@@ -46,21 +46,21 @@ public class SurveyController {
     public String doPost(Model model, @ModelAttribute("survey") Survey survey,
                          @CookieValue(value = "JSESSIONID", defaultValue = "null") String jsessionid)
     {
-        log.debug("POST /survey, jsessionid: " + jsessionid + " " + survey.toString());
+        log.debug("POST /survey, jsessionid:  {} , {}: " , jsessionid , survey);
 
         if ( surveyService.validateSurvey(survey))
         {
             surveyService.saveSurvey(survey, jsessionid);
-            log.debug("Send successMessage " + successMessage);
+            log.debug("Send successMessage {}" , successMessage);
             model.addAttribute("successMessage", successMessage);
         }
         else {
-            log.debug("Send errorMessage " + errorMessage);
+            log.debug("Send errorMessage {}" , errorMessage);
             model.addAttribute("errorMessage", errorMessage);
         }
-        log.debug("Added atributes: answerMaxLength " + answerMaxLength);
-        model.addAttribute("answerMaxLength", answerMaxLength);
-        model.addAttribute("survey", surveyService.getSurvey(jsessionid));
+        log.debug("Added atributes: answerMaxLength {}" ,   answerMaxLength);
+        model.addAttribute("answerMaxLength" , answerMaxLength);
+        model.addAttribute("survey" , surveyService.getSurvey(jsessionid));
         return "survey";
     }
 
