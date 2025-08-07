@@ -5,6 +5,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,27 +28,34 @@ public class DefaultSurveyService implements SurveyService {
     @Value("${survey.description}")
     private String surveyDescription;
 
-	@Autowired
-	QuestionService questionService;
+    @Autowired
+    QuestionService questionService;
 
-	@Autowired
-	AnswerService answerService;
+    @Autowired
+    AnswerService answerService;
+
+    @Value("${answer.max.length}")
+    private int answerMaxLength;
 
     private final Integer allowedAnswersQty = 10;
 
-	public Survey getSurvey(String jsessionid)
+
+    public Survey getSurvey(String jsessionid)
 	{
-		Survey survey = new Survey(surveyTitle,surveyDescription);
-		
+
 		  List<Question> questions = questionService.getQuestions();
 
+          Survey survey = new Survey(surveyTitle,surveyDescription, questions);
+
 		  if (jsessionid == null) {
-			  return getSurveyWithNoAnswers();
+              log.debug("getSurvey jsessionid == null");
+
+              return getSurveyWithNoAnswers();
 		  } 
 		  else // Get survey with answers already completed by jsessionid
 		  { 
 			 List<Answer> answers = answerService.getAnswersByJsessionID(jsessionid);
-			 
+              log.debug("getSurvey jsessionid == " + jsessionid);
 			 if ( !answers.isEmpty()) {
 				 
 				 questions.forEach(q ->
@@ -53,11 +63,12 @@ public class DefaultSurveyService implements SurveyService {
 				        answers.stream()
 				            .filter(a -> a.getQuestion().getId() == q.getId())
 				            .peek(a -> a.setQuestion(q))
-                            .peek(a -> System.out.println("Load: " + a + " " + q))
+                            .peek(a -> log.debug("Load: " + a + " " + q))
                                 .collect(Collectors.toList())
 				    )
 				);
 				 survey.setQuestions(questions);
+                 log.debug("setQuestions: " + questions.toString());
 				 return survey;
 			 }
 			 else { // List of answers by jsessionid is empty
@@ -68,12 +79,13 @@ public class DefaultSurveyService implements SurveyService {
 	
 	public Survey getSurveyWithNoAnswers()  {
 		
-		  List<Question> questions = questionService.getQuestions();
-
+		 List<Question> questions = questionService.getQuestions();
+         log.debug("getSurveyWithNoAnswers questions: " + questions.toString());
 		 questions.forEach(q -> {
 		        List<Answer> answers = IntStream.range(0, 3)
 		            .mapToObj(i -> new Answer()) 
 		            .peek(a -> a.setQuestion(q)) 
+		            .peek(a ->  log.debug("set " + q.toString()+ " to " + a.toString()))
 		            .collect(Collectors.toList());
 
 		        q.setAnswers(answers);
@@ -83,12 +95,13 @@ public class DefaultSurveyService implements SurveyService {
 	}
 	public void saveSurvey(Survey survey, String jsessionid)
 	{
+        log.debug("inside saveSurvey");
 		survey.getQuestions().stream()
 		.flatMap( question -> question.getAnswers().stream()
 				.filter( answer -> answer.getText() != null && !answer.getText().isBlank() && !answer.getText().isEmpty())
 				.peek( answer -> answer.setQuestion(question))
 				.peek(answer -> answer.setJsessionid(jsessionid))
-				.peek(a -> System.out.println("save:" + a)))
+				.peek(a -> log.debug("save:" + a.toString() + " for " + question.toString())))
 		.forEach(answerService::saveAnswer);
 	}
 
@@ -96,7 +109,7 @@ public class DefaultSurveyService implements SurveyService {
 	 {
 		 boolean checkLength = checkAnswersLength(survey);
          boolean checkQtyOfAnswers = checkQtyOfAnswers(survey);
-        System.out.println("validateSurvey "  + (checkLength && checkQtyOfAnswers) );
+         log.debug("validateSurvey " + (checkLength && checkQtyOfAnswers) );
          return checkLength && checkQtyOfAnswers;
 	 }
 
@@ -104,8 +117,8 @@ public class DefaultSurveyService implements SurveyService {
      {
          for ( Question q : survey.getQuestions()) {
              for (Answer a : q.getAnswers()) {
-                 if (a.getText().length() > 20) {
-                     System.out.println("checkAnswersLength false, length of answers: " + a.getText().length() );
+                 if (a.getText().length() > answerMaxLength) {
+                     log.debug("checkAnswersLength false, length of answers: " + a.getText().length() );
                      return false;
                  }
              }
@@ -116,7 +129,7 @@ public class DefaultSurveyService implements SurveyService {
     {
         for ( Question q : survey.getQuestions()) {
             if (q.getAnswers().size() > allowedAnswersQty) {
-                System.out.println("checkQtyOfAnswers false, size of answers: " + q.getAnswers().size() + ", for " + q);
+                log.debug("checkQtyOfAnswers false, size of answers: " + q.getAnswers().size() + ", for " + q.toString());
                 return false;
             }
         }

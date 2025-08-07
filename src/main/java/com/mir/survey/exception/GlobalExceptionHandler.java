@@ -1,11 +1,12 @@
 package com.mir.survey.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpServletRequest;
-
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler  {
 
@@ -20,11 +21,13 @@ public class GlobalExceptionHandler  {
 	        if (statusCode != null && statusCode == 404) {
 	            model.addAttribute("errorCode", 404);
 	            model.addAttribute("errorMessage", "Strona nie została znaleziona");
+                log.debug("return 404");
 	            return "error";
 	        }
 
 	        model.addAttribute("errorCode", statusCode);
 	        model.addAttribute("errorMessage", "Wystąpił błąd");
+            log.debug("return " + statusCode);
 	        return "error";
 	    }
 }
