@@ -9,7 +9,24 @@ body {
         h2 {
             text-align: center;
             color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+
+        h3 {
+            text-align: center;
+            color: #7f8c8d;
+            margin-top: 0;
             margin-bottom: 40px;
+            font-size: 1.25rem;
+            font-weight: 400;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         form {
@@ -118,4 +135,50 @@ body {
 
         #cookie-popup button:hover {
             background-color: #45a049;
+        }
+
+        .error-message-box {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 15px 20px;
+            margin: 20px auto;
+            max-width: 700px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 0 15px 3px rgba(255, 77, 77, 0.7);
+            font-size: 1.2rem;
+            animation: pulseError 2s infinite;
+        }
+
+        @keyframes pulseError {
+            0%, 100% {
+                box-shadow: 0 0 15px 3px rgba(255, 77, 77, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 25px 5px rgba(255, 77, 77, 1);
+            }
+        }
+
+        .success-message-box {
+            background-color: #006400;
+            color: white;
+            padding: 15px 20px;
+            margin: 20px auto;
+            max-width: 700px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 0 15px 3px rgba(0, 100, 0, 0.7);
+            font-size: 1.2rem;
+            animation: pulseSuccess 2s infinite;
+        }
+
+        @keyframes pulseSuccess {
+            0%, 100% {
+                box-shadow: 0 0 15px 3px rgba(0, 100, 0, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 25px 5px rgba(0, 100, 0, 0.7);
+            }
         }
