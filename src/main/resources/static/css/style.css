@@ -148,7 +148,16 @@ body {
             text-align: center;
             box-shadow: 0 0 15px 3px rgba(255, 77, 77, 0.7);
             font-size: 1.2rem;
-            animation: pulse 2s infinite;
+            animation: pulseError 2s infinite;
+        }
+
+        @keyframes pulseError {
+            0%, 100% {
+                box-shadow: 0 0 15px 3px rgba(255, 77, 77, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 25px 5px rgba(255, 77, 77, 1);
+            }
         }
 
         .success-message-box {
@@ -160,15 +169,16 @@ body {
             border-radius: 8px;
             font-weight: bold;
             text-align: center;
-            box-shadow: 0 0 15px 3px rgba(255, 77, 77, 0.7);
+            box-shadow: 0 0 15px 3px rgba(0, 100, 0, 0.7);
             font-size: 1.2rem;
-            animation: pulse 2s infinite;
+            animation: pulseSuccess 2s infinite;
         }
-        @keyframes pulse {
+
+        @keyframes pulseSuccess {
             0%, 100% {
-                box-shadow: 0 0 15px 3px rgba(255, 77, 77, 0.7);
+                box-shadow: 0 0 15px 3px rgba(0, 100, 0, 0.7);
             }
             50% {
-                box-shadow: 0 0 25px 5px rgba(255, 77, 77, 1);
+                box-shadow: 0 0 25px 5px rgba(0, 100, 0, 0.7);
             }
         }
