@@ -30,7 +30,7 @@
 </c:if>
 
 <form:form method="post" modelAttribute="survey" action="/survey" onsubmit="return validateAnswers()" >
-    
+
     <c:forEach var="question" items="${survey.questions}" varStatus="surveyStatus">
         <div class="question-block" id="question-${surveyStatus.index}">
                 <strong>Pytanie ${surveyStatus.index + 1}: ${question.text}</strong>
@@ -49,7 +49,7 @@
 
          </div>
     </c:forEach>
-            
+
     <button type="submit">Wyślij</button>
 </form:form>
 

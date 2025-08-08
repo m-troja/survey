@@ -1,41 +1,18 @@
 package com.mir.survey.entity;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Survey {
 
-    String title;
+    private String title;
 
-    String description;
+    private String description;
 
-	List<Question> questions;
-
-
-
-    public List<Question> getQuestions() {
-		return questions;
-	}
-
-	public void setQuestions(List<Question> questions) {
-		this.questions= questions;
-	}
-
-	public Survey(List<Question> questions) {
-		super();
-		this.questions = questions;
-	}
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
+    private List<Question> questions;
 }
