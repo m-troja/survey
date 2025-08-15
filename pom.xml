@@ -10,9 +10,10 @@
 	</parent>
 	<groupId>com.mir</groupId>
 	<artifactId>survey</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>survey</name>
 	<description>Demo project for Spring Boot</description>
+    <packaging>war</packaging>
 	<url/>
 	<licenses>
 		<license/>
@@ -134,7 +135,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>com.mir.survey.SurveyApplication</mainClass>
-                    <layout>JAR</layout>
+                    <layout>WAR</layout>
                 </configuration>
             </plugin>
 		</plugins>

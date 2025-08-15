@@ -2,12 +2,13 @@ version: '3.8'
 
 services:
   app:
+    platform: linux/amd64
     container_name: survey-application
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "80:8080"
+      - "80:8081"
     depends_on:
       db:
         condition: service_healthy
@@ -17,13 +18,14 @@ services:
       - SPRING_DATASOURCE_PASSWORD=root
 
   db:
+    platform: linux/amd64
     image: mysql:latest
     container_name: mysql-db
     environment:
       MYSQL_DATABASE: survey
       MYSQL_ROOT_PASSWORD: root
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - db-data:/var/lib/mysql
     healthcheck:
