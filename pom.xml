@@ -10,9 +10,10 @@
 	</parent>
 	<groupId>com.mir</groupId>
 	<artifactId>survey</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>survey</name>
 	<description>Demo project for Spring Boot</description>
+    <packaging>war</packaging>
 	<url/>
 	<licenses>
 		<license/>
@@ -42,6 +43,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.6.0</version>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
@@ -126,6 +133,15 @@
                             <version>1.18.38</version>
                         </path>
                     </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.mir.survey.SurveyApplication</mainClass>
+                    <layout>WAR</layout>
                 </configuration>
             </plugin>
 		</plugins>

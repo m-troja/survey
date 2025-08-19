@@ -9,7 +9,8 @@ import org.springframework.context.annotation.PropertySources;
 @Slf4j
 @SpringBootApplication
 @PropertySources({
-	@PropertySource("classpath:application.properties")
+	@PropertySource("classpath:application.properties"),
+	@PropertySource("classpath:secrets.properties")
 	})
 @EntityScan("com.mir.survey.entity")
 
