@@ -13,7 +13,7 @@ services:
       db:
         condition: service_healthy
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/survey
+      - SPRING_DATASOURCE_URL=jdbc:postgres://db:3306/survey
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
 
