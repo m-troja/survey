@@ -8,14 +8,16 @@
 <head>
     <title>${survey.title}</title>
 
-	<survey:css-import/>
-	<survey:script-import/>
+    <!-- Responsive viewport tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <survey:css-import/>
+    <survey:script-import/>
 </head>
 <body>
 
 <h2>${survey.title}</h2>
-<h3>${survey.description}</h2>
+<h3>${survey.description}</h3>
 
 <c:if test="${successMessage != null}">
     <div class="success-message-box">
@@ -29,28 +31,28 @@
     </div>
 </c:if>
 
-<form:form method="post" modelAttribute="survey" action="/survey" onsubmit="return validateAnswers()" >
+<form:form method="post" modelAttribute="survey" action="/survey" onsubmit="return validateAnswers()">
 
     <c:forEach var="question" items="${survey.questions}" varStatus="surveyStatus">
         <div class="question-block" id="question-${surveyStatus.index}">
-                <strong>Pytanie ${surveyStatus.index + 1}: ${question.text}</strong>
-                <form:hidden path="questions[${surveyStatus.index}].text"/>
-                <form:hidden path="questions[${surveyStatus.index}].id"/>
+            <strong>Pytanie ${surveyStatus.index + 1}: ${question.text}</strong>
+            <form:hidden path="questions[${surveyStatus.index}].text"/>
+            <form:hidden path="questions[${surveyStatus.index}].id"/>
 
-			<div class="answers-container" id="answers-container-${surveyStatus.index}" data-answer-max-length="${answerMaxLength}">
+            <div class="answers-container" id="answers-container-${surveyStatus.index}" data-answer-max-length="${answerMaxLength}">
                 <c:forEach var="aIndex" begin="0" end="${fn:length(question.answers) - 1}">
-                    <c:if test="${ aIndex <10 }" >
-			          <form:input path="questions[${surveyStatus.index}].answers[${aIndex}].text" maxlength="${answerMaxLength}" placeholder="Odpowiedź ${aIndex + 1}" />
-			          <form:hidden path="questions[${surveyStatus.index}].answers[${aIndex}].id"/>
-                     </c:if>
-			    </c:forEach>
-			    <button id="buttonAdd-${surveyStatus.index}" type="button" onclick="addAnswerInput(${surveyStatus.index})">Dodaj odpowiedź</button>
-			</div>
-
-         </div>
+                    <c:if test="${aIndex < 10}">
+                        <form:input path="questions[${surveyStatus.index}].answers[${aIndex}].text"
+                                    maxlength="${answerMaxLength}" placeholder="Odpowiedź ${aIndex + 1}" />
+                        <form:hidden path="questions[${surveyStatus.index}].answers[${aIndex}].id"/>
+                    </c:if>
+                </c:forEach>
+                <button id="buttonAdd-${surveyStatus.index}" type="button" onclick="addAnswerInput(${surveyStatus.index})">Dodaj odpowiedź</button>
+            </div>
+        </div>
     </c:forEach>
 
-    <button type="submit">Wyślij</button>
+    <button type="submit" class="submit-button">Wyślij</button>
 </form:form>
 
 <!-- Overlay to block interaction -->
