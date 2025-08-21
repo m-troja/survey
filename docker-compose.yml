@@ -13,23 +13,24 @@ services:
       db:
         condition: service_healthy
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgres://db:3306/survey
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/survey
       - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_DATASOURCE_PASSWORD=jigUWuDFjnz4Si3
 
   db:
     platform: linux/amd64
-    image: mysql:latest
-    container_name: mysql-db
+    image: postgres:15
+    container_name: postgresql-db
     environment:
-      MYSQL_DATABASE: survey
-      MYSQL_ROOT_PASSWORD: root
+      POSTGRES_DB: survey
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: jigUWuDFjnz4Si3
     ports:
-      - "3307:3306"
+      - "5432:5432"
     volumes:
-      - db-data:/var/lib/mysql
+      - db-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      test: ["CMD-SHELL", "pg_isready -U root"]
       interval: 10s
       timeout: 5s
       retries: 5
